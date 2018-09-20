@@ -1,12 +1,19 @@
-import urllib2, urllib, json
+from weather import Weather, Unit
+from datetime import datetime, timedelta
 
-# yahoo_app_id = "yEaDfC4g"
-# yahoo_consumer_key = "dj0yJmk9MTNOZTgxQlNnQ0ZrJmQ9WVdrOWVVVmhSR1pETkdjbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD04Mw--"
-# yahoo_secret = "3dffcf52d6b745a098daa6d3f15c0208e62b170c"
+weather = Weather(unit=Unit.CELSIUS)
 
-baseurl = "https://query.yahooapis.com/v1/public/yql?"
-yql_query = "select wind from weather.forecast where woeid=2460286"
-yql_url = baseurl + urllib.urlencode({'q':yql_query}) + "&format=json"
-result = urllib2.urlopen(yql_url).read()
-data = json.loads(result)
-print data['query']['results']
+def convert_str_to_time(time):
+    return datetime.strptime(time, '%I:%M %p')
+
+def get_sunlight_minutes(location):
+    sunset = convert_str_to_time(location.astronomy['sunset'])
+    sunrise = convert_str_to_time(location.astronomy['sunrise'])
+    print("sunset: %s" % sunset)
+    print("sunrise: %s" % sunrise)
+    sun_time = sunset - sunrise
+    return timedelta.total_seconds(sun_time) / 60
+
+# https://docs.python.org/3/library/datetime.html
+# https://anthonybloomer.github.io/weather-api/
+# https://developer.yahoo.com/weather/documentation.html?guccounter=1

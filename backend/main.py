@@ -1,6 +1,7 @@
 #!flask/bin/python
-from flask import request, Flask
+from flask import request, jsonify, Flask
 # from yahoo_weather import data
+from my_power import *
 
 class NotEnoughDataException(Exception):
     pass
@@ -17,6 +18,14 @@ def get_energy():
     format_coordinates(request.args)
     return ""
 
+# @app.route('/yahoo/', methods=['GET'])
+# def yahoo_test():
+#     return jsonify(data)
+
+@app.route('/power/', methods=['GET'])
+def power_test():
+    forecast = Forecast()
+    return forecast.get_avg_ac_power()
 
 def format_coordinates(args):
     longitude = None
