@@ -27,7 +27,7 @@
 
       <div class="row">
         <div class="container col-sm">
-          <div class="card">
+          <div class="card card--left">
             <div class="card-header">Map</div>
             <div class="card-body">
               <div id="mapid" class="float"></div>
@@ -35,30 +35,38 @@
           </div>
         </div>
         <div class="container col-sm">
-
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Panel tilt (0 - 360)</span>
+          <div class="card card--right">
+            <div class="card-header">Input</div>
+            <div class="card-body">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Panel tilt (0 - 360)</span>
+                </div>
+                <input type="text" id="tilt" default="30" class="form-control">
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Panel azimuth (0 - 360)</span>
+                </div>
+                <input type="text" id="azimuth" default="180" class="form-control">
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Panel albedo (0 - 1)</span>
+                </div>
+                <input type="text" id="albedo" default="0.2" class="form-control">
+              </div>
             </div>
-            <input type="text" id="tilt" default="30" class="form-control">
           </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Panel azimuth (0 - 360)</span>
+          <div class="card card--right">
+            <div class="card-header">Output</div>
+            <div class="card-body">
+              <div class="map-data">
+                <h5><strong>Address:</strong> <span id="address">Click somewhere on the map!</span></h5>
+                <h2><strong>Wattage:</strong> <span id="wattage">0</span>W</h2>
+              </div>
             </div>
-            <input type="text" id="azimuth" default="180" class="form-control">
           </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Panel albedo (0 - 1)</span>
-            </div>
-            <input type="text" id="albedo" default="0.2" class="form-control">
-          </div>
-
-          <div class="map-data">
-
-          </div>
-
         </div>
 
       </div>
@@ -94,8 +102,8 @@
               data: latlng,
               type: 'POST',
               success: function(response) {
-                  console.log("SUCCESS");
-                  $('.map-data').html("<h2>" + response + " Watts</h2>");
+                  $('#wattage').html(response[1]);
+                  $('#address').html(response[0]);
                   console.log(response);
               },
               error: function(error) {

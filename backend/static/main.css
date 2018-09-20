@@ -2,3 +2,7 @@
   max-width: 1000px;
   margin: 100px auto;
 }
+
+.card--right{
+  margin-bottom: 30px;
+}

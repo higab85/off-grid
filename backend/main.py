@@ -1,6 +1,6 @@
 #!flask/bin/python
 from flask import request, jsonify, Flask, render_template, flash
-# from yahoo_weather import data
+from geopy.geocoders import Nominatim
 from my_power import *
 import json
 
@@ -10,6 +10,8 @@ class NotEnoughDataException(Exception):
 app = Flask(__name__, static_url_path='')
 app.secret_key = b'\x1c\xd2\xbf\xfc`&x\xf4\xab\x04\xc6\xf3B\x02\x9d]\t\xddP`\x97%\x14\xd4'
 app.url_map.strict_slashes = False
+
+geolocator = Nominatim(user_agent="off-grid")
 
 @app.route('/')
 def index():
@@ -27,7 +29,11 @@ def get_energy():
     albedo = float(request.form['albedo'])
     panel = Panel(lat, lng, tz, surface_tilt, surface_azimuth, albedo)
     forecast = Forecast(panel=panel)
-    return forecast.get_avg_daily_dc_power()
+    coordinates = "'" + request.form['lat'] + ", " + request.form['lng'] + "'"
+    location = geolocator.reverse(coordinates)
+    print("location: %s" % location.address)
+    response = location.address, forecast.get_avg_daily_dc_power()
+    return jsonify(response)
 
     # return json.dumps({'status':'OK','lng':request.form['lng'],'lat':request.form['lat']});
 
