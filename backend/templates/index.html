@@ -9,14 +9,19 @@
     <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
     integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
     crossorigin=""></script>
+    <script
+    			  src="https://code.jquery.com/jquery-3.3.1.min.js"
+    			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    			  crossorigin="anonymous"></script>
     <!-- <script type="text/javascript" src="./index.js"></script> -->
     <style>
       #mapid { height: 500px; width: 500px;}
     </style>
   </head>
   <body>
-     <a href="https://www.yahoo.com/?ilc=401" target="_blank"> <img src="https://poweredby.yahoo.com/purple.png" width="134" height="29"/> </a>
      <div id="mapid"></div>
+     <!-- http://flask.pocoo.org/docs/1.0/patterns/flashing/ -->
+     <h2 class="map-data"></h2>
      <script type="text/javascript">
       var mymap = L.map('mapid').setView([51.505, -0.09], 13);
       var accessToken = "pk.eyJ1IjoiaGlnYWI4NSIsImEiOiJjam02YnE3ajQwMXhlM3BvNXk4ejZwaWJuIn0.z9xE-72riJyNQMExx_T01A"
@@ -29,10 +34,30 @@
 
       function onMapClick(e) {
           console.log(e.latlng);
+          var latlng = new Object();
+          latlng.lng = e.latlng.lng;
+          latlng.lat = e.latlng.lat;
+
+          console.log(latlng);
+          $.ajax({
+              url: 'api/power',
+              data: latlng,
+              type: 'POST',
+              success: function(response) {
+                  console.log("SUCCESS");
+                  $('.map-data').replaceWith("<h2 class=`map-data`>" + response + "</h2>");
+                  console.log(response);
+              },
+              error: function(error) {
+                  console.log("ERROR");
+                  console.log(error);
+              }
+          });
       }
 
       mymap.on('click', onMapClick);
      </script>
+
   </body>
 </html>
 <!-- https://leafletjs.com/examples/quick-start/ -->

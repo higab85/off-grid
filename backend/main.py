@@ -1,22 +1,27 @@
 #!flask/bin/python
-from flask import request, jsonify, Flask
+from flask import request, jsonify, Flask, render_template, flash
 # from yahoo_weather import data
 from my_power import *
+import json
 
 class NotEnoughDataException(Exception):
     pass
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
+app.secret_key = b'\x1c\xd2\xbf\xfc`&x\xf4\xab\x04\xc6\xf3B\x02\x9d]\t\xddP`\x97%\x14\xd4'
+app.url_map.strict_slashes = False
 
 @app.route('/')
 def index():
-    return "Hello, World!"
+    return render_template('index.html')
 
 
-@app.route('/api/energy/', methods=['GET'])
+@app.route('/api/power/', methods=['POST'])
 def get_energy():
-    format_coordinates(request.args)
-    return ""
+    print(request.form)
+    return request.form['lng']
+
+    # return json.dumps({'status':'OK','lng':request.form['lng'],'lat':request.form['lat']});
 
 # @app.route('/yahoo/', methods=['GET'])
 # def yahoo_test():
