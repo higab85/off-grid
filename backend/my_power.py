@@ -43,14 +43,19 @@ class Panel():
 class Forecast():
     # forecast_models = [GFS(), NAM(), NDFD(), RAP(), HRRR()]
 
-    def get_avg_dc_power(self):
-        return np.format_float_positional(self.sapm_out.p_mp.values.mean(), precision=3)
+    def get_avg_daily_dc_power(self):
+        total = self.sapm_out.p_mp.values.sum()
+        avg = total/self.forecast_length
+        return np.format_float_positional(avg, precision=3)
 
-    def get_avg_ac_power(self):
-        return np.format_float_positional(self.ac_power.values.mean(), precision=3)
+    def get_avg_daily_ac_power(self):
+        total = self.ac_power.values.sum()
+        avg = total/self.forecast_length
+        return np.format_float_positional(avg, precision=3)
 
     # forecast_length in days
     def __init__(self, panel = None, forecast_length = 7, forecast_model = None):
+        self.forecast_length = forecast_length
         if panel == None:
             self.panel = Panel()
         else:
