@@ -18,8 +18,16 @@ def index():
 
 @app.route('/api/power/', methods=['POST'])
 def get_energy():
-    print(request.form)
-    return request.form['lng']
+    print("request: %s" % request.form)
+    lat = float(request.form['lat'])
+    lng = float(request.form['lng'])
+    tz = 'US/Mountain'
+    surface_tilt = int(request.form['surface_tilt'])
+    surface_azimuth = int(request.form['surface_azimuth'])
+    albedo = float(request.form['albedo'])
+    panel = Panel(lat, lng, tz, surface_tilt, surface_azimuth, albedo)
+    forecast = Forecast(panel=panel)
+    return forecast.get_avg_daily_dc_power()
 
     # return json.dumps({'status':'OK','lng':request.form['lng'],'lat':request.form['lat']});
 

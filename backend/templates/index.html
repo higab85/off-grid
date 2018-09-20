@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Using Openstreetmap with Leaflet</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
   crossorigin=""/>
@@ -13,6 +14,7 @@
     			  src="https://code.jquery.com/jquery-3.3.1.min.js"
     			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     			  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- <script type="text/javascript" src="./index.js"></script> -->
     <style>
       #mapid { height: 500px; width: 500px;}
@@ -21,7 +23,16 @@
   <body>
      <div id="mapid"></div>
      <!-- http://flask.pocoo.org/docs/1.0/patterns/flashing/ -->
+     <form>
+       Panel tilt (0 - 360):<br>
+       <input id="tilt" type="text" name="tilt" value="30"><br>
+       Panel azimuth(0 - 360):<br>
+       <input id="azimuth" type="text" name="azimuth" value="180"><br>
+       Panel albedo(0 - 1):<br>
+       <input id="albedo" type="text" name="albedo" value="0.1">
+      </form>
      <h2 class="map-data"></h2>
+
      <script type="text/javascript">
       var mymap = L.map('mapid').setView([51.505, -0.09], 13);
       var accessToken = "pk.eyJ1IjoiaGlnYWI4NSIsImEiOiJjam02YnE3ajQwMXhlM3BvNXk4ejZwaWJuIn0.z9xE-72riJyNQMExx_T01A"
@@ -37,6 +48,10 @@
           var latlng = new Object();
           latlng.lng = e.latlng.lng;
           latlng.lat = e.latlng.lat;
+          latlng.surface_tilt = parseInt($('#tilt').val())
+          latlng.surface_azimuth = parseInt($('#azimuth').val())
+          latlng.albedo = parseFloat($('#albedo').val())
+
 
           console.log(latlng);
           $.ajax({

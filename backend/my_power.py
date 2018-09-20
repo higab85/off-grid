@@ -18,27 +18,15 @@ from pvlib import solarposition,irradiance,atmosphere,pvsystem
 from pvlib.forecast import GFS, NAM, NDFD, RAP, HRRR
 
 class Panel():
-
-    def __init__(self):
-        # Choose a location.
-        # Tucson, AZ
-        self.latitude = 32.2
-        self.longitude = -110.9
-        self.tz = 'US/Mountain'
-
-        self.surface_tilt = 30
-        self.surface_azimuth = 180 # pvlib uses 0=North, 90=East, 180=South, 270=West convention
-        self.albedo = 0.2
-
-#     def __init__(self, latitude, longitude, timezone, surface_tilt, surface_azimuth, albedo):
-#         self.latitude = latitude
-#         self.longitude = longitude
-#         self.tz = timezone
-#         self.surface_tilt = surface_tilt
-#         self.surface_azimuth = surface_azimuth # angle (0 = North, 90 = East)
-# # measure of the diffuse reflection of solar radiation out of the total solar radiation
-# # https://en.wikipedia.org/wiki/Albedo
-#         self.albedo = albedo
+    def __init__(self, latitude, longitude, timezone, surface_tilt, surface_azimuth, albedo):
+        self.latitude = latitude
+        self.longitude = longitude
+        self.tz = timezone
+        self.surface_tilt = surface_tilt
+        self.surface_azimuth = surface_azimuth # angle (0 = North, 90 = East)
+# measure of the diffuse reflection of solar radiation out of the total solar radiation
+# https://en.wikipedia.org/wiki/Albedo
+        self.albedo = albedo
 
 class Forecast():
     # forecast_models = [GFS(), NAM(), NDFD(), RAP(), HRRR()]
@@ -69,6 +57,8 @@ class Forecast():
         self.start = pd.Timestamp(datetime.date.today(), tz=self.panel.tz) # today's date
         self.end = self.start + pd.Timedelta(days=forecast_length) # days from today
 
+        print("getting processed data with lat: %s, lng: %s, start:%s, end:%s" % (self.panel.latitude,
+                self.panel.longitude, self.start, self.end))
         # get forecast data
         forecast_data = self.fm.get_processed_data(self.panel.latitude,
                 self.panel.longitude, self.start, self.end)
