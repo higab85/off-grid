@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
   crossorigin=""/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+
     <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
     integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
     crossorigin=""></script>
@@ -21,30 +23,63 @@
     </style>
   </head>
   <body>
-     <div id="mapid"></div>
-     <!-- http://flask.pocoo.org/docs/1.0/patterns/flashing/ -->
-     <form>
-       Panel tilt (0 - 360):<br>
-       <input id="tilt" type="text" name="tilt" value="30"><br>
-       Panel azimuth(0 - 360):<br>
-       <input id="azimuth" type="text" name="azimuth" value="180"><br>
-       Panel albedo(0 - 1):<br>
-       <input id="albedo" type="text" name="albedo" value="0.1">
-      </form>
-     <h2 class="map-data"></h2>
+    <div class="wrapper">
+
+      <div class="row">
+        <div class="container col-sm">
+          <div class="card">
+            <div class="card-header">Map</div>
+            <div class="card-body">
+              <div id="mapid" class="float"></div>
+            </div>
+          </div>
+        </div>
+        <div class="container col-sm">
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Panel tilt (0 - 360)</span>
+            </div>
+            <input type="text" id="tilt" default="30" class="form-control">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Panel azimuth (0 - 360)</span>
+            </div>
+            <input type="text" id="azimuth" default="180" class="form-control">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Panel albedo (0 - 1)</span>
+            </div>
+            <input type="text" id="albedo" default="0.2" class="form-control">
+          </div>
+
+          <div class="map-data">
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
 
      <script type="text/javascript">
-      var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+      var view = [51.505, -0.09];
+      var map = L.map('mapid').setView(view, 13);
       var accessToken = "pk.eyJ1IjoiaGlnYWI4NSIsImEiOiJjam02YnE3ajQwMXhlM3BvNXk4ejZwaWJuIn0.z9xE-72riJyNQMExx_T01A"
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token='+ accessToken, {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
         id: 'mapbox.streets',
         accessToken: accessToken
-      }).addTo(mymap);
+      }).addTo(map);
+      marker = L.marker(view);
+      marker.addTo(map);
 
       function onMapClick(e) {
           console.log(e.latlng);
+          marker.setLatLng(e.latlng);
           var latlng = new Object();
           latlng.lng = e.latlng.lng;
           latlng.lat = e.latlng.lat;
@@ -60,7 +95,7 @@
               type: 'POST',
               success: function(response) {
                   console.log("SUCCESS");
-                  $('.map-data').replaceWith("<h2 class=`map-data`>" + response + "</h2>");
+                  $('.map-data').html("<h2>" + response + " Watts</h2>");
                   console.log(response);
               },
               error: function(error) {
@@ -70,7 +105,7 @@
           });
       }
 
-      mymap.on('click', onMapClick);
+      map.on('click', onMapClick);
      </script>
 
   </body>
