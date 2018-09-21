@@ -29,4 +29,3 @@ tables==3.4.4
 urllib3==1.23
 weather-api==1.0.4
 Werkzeug==0.14.1
-
