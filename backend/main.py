@@ -39,6 +39,7 @@ def get_energy():
     location = geolocator.reverse(coordinates)
     print("location: %s" % location.address)
     response = location.address, forecast.get_avg_daily_dc_power()
+    print("\nresponse:%s\n" % forecast.get_avg_daily_dc_power())
     return jsonify(response)
 
 

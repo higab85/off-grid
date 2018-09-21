@@ -9,7 +9,7 @@ import pandas as pd
 
 # finally, we import the pvlib library
 from pvlib import solarposition,irradiance,atmosphere,pvsystem
-from pvlib.forecast import GFS, NAM, NDFD, RAP, HRRR
+from pvlib.forecast import GFS #, NAM, NDFD, RAP, HRRR
 
 class Panel():
     def __init__(self, latitude, longitude, timezone, surface_tilt, surface_azimuth, albedo):
