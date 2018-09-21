@@ -18,6 +18,12 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/api/search/', methods=['POST'])
+def get_coordinates():
+     location = geolocator.geocode(request.form['search'])
+     coordinates = location.latitude, location.longitude
+     return jsonify(coordinates)
+
 @app.route('/api/power/', methods=['POST'])
 def get_energy():
     print("request: %s" % request.form)
@@ -35,41 +41,6 @@ def get_energy():
     response = location.address, forecast.get_avg_daily_dc_power()
     return jsonify(response)
 
-    # return json.dumps({'status':'OK','lng':request.form['lng'],'lat':request.form['lat']});
-
-# @app.route('/yahoo/', methods=['GET'])
-# def yahoo_test():
-#     return jsonify(data)
-
-@app.route('/power/', methods=['GET'])
-def power_test():
-    forecast = Forecast()
-    return forecast.get_avg_daily_dc_power()
-
-def format_coordinates(args):
-    longitude = None
-    latitude = None
-    if 'longitude' in args:
-        longitude = args['longitude']
-    else:
-        raise NotEnoughDataException("No longitude presented!")
-    if 'latitude' in args:
-        latitude = args['latitude']
-    else:
-        raise NotEnoughDataException("No latitude presented!")
-    return longitude, latitude
-
-def get_sunlight_hours():
-    return
-
-def get_wind_speed():
-    return
-
-def calculate_energy_sulight():
-    return
-
-def calculate_energy_wind_speed():
-    return
 
 
 if __name__ == '__main__':

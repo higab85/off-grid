@@ -26,6 +26,12 @@
           <div class="card card--left">
             <div class="card-header">Map</div>
             <div class="card-body">
+              <div class="input-group mb-3">
+                <input id="search" type="text" class="form-control" placeholder="Search">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" id="search-button">Search</button>
+                </div>
+              </div>
               <div id="mapid" class="float"></div>
             </div>
           </div>
@@ -130,6 +136,27 @@
       }
 
       map.on('click', onMapClick);
+
+      $('#search-button').click(function(){
+        console.log("search clicked");
+        var request = new Object();
+        request.search = $('#search').val()
+        $.ajax({
+            url: 'api/search',
+            data: request,
+            type: 'POST',
+            success: function(response) {
+                console.log("SUCCESS");
+                map.setView(response, 13);
+                console.log(response);
+            },
+            error: function(error) {
+                console.log("ERROR");
+                alert("No results found...");
+                console.log(error);
+            }
+        });
+      });
      </script>
 
   </body>
