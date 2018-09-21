@@ -42,19 +42,19 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">Panel tilt (0 - 360)</span>
                 </div>
-                <input type="text" id="tilt" default="30" class="form-control">
+                <input type="number" id="tilt" min="0" max="360" class="form-control" required>
               </div>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text">Panel azimuth (0 - 360)</span>
                 </div>
-                <input type="text" id="azimuth" default="180" class="form-control">
+                <input type="number" id="azimuth" min="0" max="360" class="form-control" required>
               </div>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text">Panel albedo (0 - 1)</span>
                 </div>
-                <input type="text" id="albedo" default="0.2" class="form-control">
+                <input type="number" id="albedo" default="0.2" min="0" max="1" step="0.01" class="form-control" required>
               </div>
             </div>
           </div>
@@ -97,20 +97,28 @@
 
 
           console.log(latlng);
-          $.ajax({
-              url: 'api/power',
-              data: latlng,
-              type: 'POST',
-              success: function(response) {
-                  $('#wattage').html(response[1]);
-                  $('#address').html(response[0]);
-                  console.log(response);
-              },
-              error: function(error) {
-                  console.log("ERROR");
-                  console.log(error);
-              }
-          });
+          if (tilt.checkValidity() &&
+              azimuth.checkValidity() &&
+              albedo.checkValidity()) {
+              console.log("sending request")
+            $.ajax({
+                url: 'api/power',
+                data: latlng,
+                type: 'POST',
+                success: function(response) {
+                    $('#wattage').html(response[1]);
+                    $('#address').html(response[0]);
+                    console.log(response);
+                },
+                error: function(error) {
+                    console.log("ERROR");
+                    console.log(error);
+                }
+            });
+          }
+          else {
+            alert("make sure you have filled in all the inputs correctly.")
+          }
       }
 
       map.on('click', onMapClick);
