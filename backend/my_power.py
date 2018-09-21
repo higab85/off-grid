@@ -7,12 +7,6 @@ import os
 import numpy as np
 import pandas as pd
 
-# plotting stuff
-# first line makes the plots appear in the notebook
-# %matplotlib inline
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-
 # finally, we import the pvlib library
 from pvlib import solarposition,irradiance,atmosphere,pvsystem
 from pvlib.forecast import GFS, NAM, NDFD, RAP, HRRR

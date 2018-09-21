@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Using Openstreetmap with Leaflet</title>
+    <title>Off-grid | Find the wattage of any location on a map</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
@@ -17,10 +17,6 @@
     			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     			  crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <!-- <script type="text/javascript" src="./index.js"></script> -->
-    <style>
-      #mapid { height: 500px; width: 500px;}
-    </style>
   </head>
   <body>
     <div class="wrapper">
@@ -70,7 +66,19 @@
         </div>
 
       </div>
+      <p>
+        This project uses <a href="https://jquery.com/">jQuery 3.3.1</a> for
+        message exchange between client and server, <a href="https://leafletjs.com/">
+        Leaflet 1.3.4</a> for the interactive map, <a href="https://getbootstrap.com/"> Bootstrap 4.1</a>
+        for the responsive web design, <a href="https://www.mapbox.com/">Mapbox</a>
+        for the map tiles, <a href="http://flask.pocoo.org/">Flask 1.0.2</a> for
+        the backend, <a href="https://pypi.org/project/geopy/#description">Geopy 1.17.0</a>
+        for the coordinates reverse lookup, and
+        <a href="https://pvlib-python.readthedocs.io/en/latest/">pvlib-python 0.6.0</a>
+        for the PV modelling.
+      </p>
     </div>
+
 
      <script type="text/javascript">
       var view = [51.505, -0.09];
